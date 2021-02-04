@@ -14,7 +14,7 @@ exports.up = async function(knex) {
   await knex.schema.createTable("recipe_instructions",(table)=>{
     table.increments()
     //creates a foreign key
-    table.integer("recipe_id").notNull()
+    table.integer("recipe_id").notNull().unsigned()
     .references("id").inTable("recipes")
     .onDelete("SET NULL")
     table.integer("step_number").unsigned().notNullable();
@@ -22,12 +22,12 @@ exports.up = async function(knex) {
   })
   //recipes_ingredients
   await knex.schema.createTable("recipes_ingredients",(table)=>{
-      table.integer("recipe_id").notNull()
+      table.integer("recipe_id").notNull().unsigned()
       .references("id").inTable("recipes")
       .onDelete("CASCADE")
       .onUpdate("CASCADE")
       table.integer("ingredient_id").notNull()
-      .references("id").inTable("ingredients")
+      .references("id").inTable("ingredients").unsigned()
       .onDelete("CASCADE")
       .onUpdate("CASCADE")
       table.float("quantity").notNull()
